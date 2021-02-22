@@ -5,8 +5,14 @@ const FILES_TO_CACHE = [
   "/styles.css",
   "/dist/index.bundle.js",
   "/dist/manifest.json",
-  "/dist/icons/icon-192x192.png",
-  "/dist/icons/icon-512x512.png",
+  "/dist/assets/icons/icon_72x72.png",
+  "/dist/assets/icons/icon_96x96.png",
+  "/dist/assets/icons/icon_128x128.png",
+  "/dist/assets/icons/icon_144x144.png",
+  "/dist/assets/icons/icon_152x152.png",
+  "/dist/assets/icons/icon_192x192.png",
+  "/dist/assets/icons/icon_384x384.png",
+  "/dist/assets/icons/icon_512x512.png",
 ];
 
 const CACHE_NAME = "static-cache-v2";
@@ -14,8 +20,9 @@ const DATA_CACHE_NAME = "data-cache-v1";
 
 // install
 self.addEventListener("install", function (evt) {
+  console.log("install", evt);
   evt.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
+    caches.open("test-cache-v1").then((cache) => {
       console.log("Your files were pre-cached successfully!");
       return cache.addAll(FILES_TO_CACHE);
     })
@@ -25,6 +32,7 @@ self.addEventListener("install", function (evt) {
 });
 
 self.addEventListener("activate", function (evt) {
+  console.log("activate", evt);
   evt.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(
@@ -43,6 +51,7 @@ self.addEventListener("activate", function (evt) {
 
 // fetch
 self.addEventListener("fetch", function (evt) {
+  console.log("fetch event", evt.request.url);
   // cache successful requests to the API
   if (evt.request.url.includes("/api/")) {
     evt.respondWith(
