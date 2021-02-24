@@ -1,8 +1,8 @@
 # Offline Budget Tracker
 ![Top Language](https://img.shields.io/github/languages/top/nobleburgundy/pwa-budget?color=blue)
 ![Lines of Code](https://img.shields.io/tokei/lines/github/nobleburgundy/pwa-budget?color=blue)
-![Travis Build Status](https://travis-ci.com/nobleburgundy/pwa-budget.svg?branch=main?color=blue)
- [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?color=red)](https://github.com/nobleburgundy/pwa-budget/blob/master/LICENSE)
+[![Build Status](https://travis-ci.com/nobleburgundy/pwa-budget.svg?branch=main)](https://travis-ci.com/nobleburgundy/pwa-budget)
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?color=red)](https://github.com/nobleburgundy/pwa-budget/blob/master/LICENSE)
 
 
 ## Table of Contents
