@@ -9,7 +9,7 @@
     "start": "node server.js",
     "lint": "eslint --quiet .",
     "lite-server": "lite-server",
-    "build": "webpack --mode production --config ./webpack.config.js",
+    "build": "node node_modules/webpack/bin/webpack.js --display-error-details",
     "postinstall": "npm run build"
   },
   "repository": {
