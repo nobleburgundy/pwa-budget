@@ -6,9 +6,7 @@
   "scripts": {
     "test": "npm run lint",
     "watch": "nodemon server.js",
-    "start": "npm run build && node server.js",
-    "start:prod": "npm run build && node server.js",
-    "server": "nodemon server.js",
+    "start": "node server.js",
     "lint": "eslint --quiet .",
     "lite-server": "lite-server",
     "heroku-prebuild": "npm install --dev",
