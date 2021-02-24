@@ -6,12 +6,10 @@
   "scripts": {
     "test": "npm run lint",
     "watch": "nodemon server.js",
-    "start": "node server.js",
+    "start": "npm run build && node server.js",
     "lint": "eslint --quiet .",
     "lite-server": "lite-server",
-    "heroku-prebuild": "npm install --dev",
-    "build": "webpack --mode production --config ./webpack.config.js",
-    "heroku-postbuild": "echo Skip build on Heroku"
+    "build": "webpack --mode production --config ./webpack.config.js"
   },
   "repository": {
     "type": "git",
