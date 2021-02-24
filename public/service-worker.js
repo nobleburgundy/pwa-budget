@@ -18,7 +18,7 @@ const CACHE_NAME = "static-cache-v2";
 const DATA_CACHE_NAME = "data-cache-v1";
 
 // install
-self.addEventListener("install", function (evt) {
+self.addEventListener("install", (evt) => {
   evt.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log("Your files were pre-cached successfully!");
@@ -29,10 +29,11 @@ self.addEventListener("install", function (evt) {
   self.skipWaiting();
 });
 
-self.addEventListener("activate", function (evt) {
+self.addEventListener("activate", (evt) => {
   evt.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(
+        // eslint-disable-next-line array-callback-return
         keyList.map((key) => {
           if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
             console.log("Removing old cache data", key);
@@ -47,7 +48,7 @@ self.addEventListener("activate", function (evt) {
 });
 
 // fetch
-self.addEventListener("fetch", function (evt) {
+self.addEventListener("fetch", (evt) => {
   // cache successful requests to the API
   if (evt.request.url.includes("/api/")) {
     evt.respondWith(
@@ -77,7 +78,7 @@ self.addEventListener("fetch", function (evt) {
   // if the request is not for the API, serve static assets using "offline-first" approach.
   // see https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook#cache-falling-back-to-network
   evt.respondWith(
-    caches.match(evt.request).then(function (response) {
+    caches.match(evt.request).then((response) => {
       return response || fetch(evt.request);
     })
   );
