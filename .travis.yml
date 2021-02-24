@@ -8,4 +8,6 @@ cache:
     - node_modules
 services:
   - mongodb
-  - eslint
+script: "npm test"
+before_install:
+  - npm install -g npm@~2.6.1
