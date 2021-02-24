@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "prestart": "npm run webpack",
     "test": "npm run lint",
     "watch": "nodemon server.js",
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
