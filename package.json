@@ -5,12 +5,13 @@
   "main": "server.js",
   "scripts": {
     "prestart": "npm run webpack",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run lint",
     "watch": "nodemon server.js",
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
     "start:prod": "npm run build && node server.js",
     "start:dev": "concurrently \"npm run server\" && \"npm run start\"",
     "server": "nodemon server.js",
+    "lint": "eslint --quiet .",
     "lite-server": "lite-server",
     "build": "npm run webpack",
     "webpack": "webpack --watch"
@@ -38,6 +39,7 @@
     "@babel/preset-env": "^7.12.17",
     "babel-loader": "^8.2.2",
     "concurrently": "^6.0.0",
+    "jest": "^26.6.3",
     "webpack": "^5.23.0",
     "webpack-cli": "^4.5.0",
     "webpack-pwa-manifest": "^4.3.0"
