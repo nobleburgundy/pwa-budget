@@ -14,7 +14,7 @@
     "lint": "eslint --quiet .",
     "lite-server": "lite-server",
     "build": "npm run webpack",
-    "webpack": "webpack --watch"
+    "webpack": "webpack"
   },
   "repository": {
     "type": "git",
