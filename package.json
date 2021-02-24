@@ -6,15 +6,13 @@
   "scripts": {
     "test": "npm run lint",
     "watch": "nodemon server.js",
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start": "npm run build && node server.js",
     "start:prod": "npm run build && node server.js",
-    "start:dev": "concurrently \"npm run server\" && \"npm run start\"",
     "server": "nodemon server.js",
     "lint": "eslint --quiet .",
     "lite-server": "lite-server",
     "heroku-prebuild": "npm install --dev",
     "build": "webpack --mode production",
-    "webpack": "webpack",
     "heroku-postbuild": "echo Skip build on Heroku"
   },
   "repository": {
