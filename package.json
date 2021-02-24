@@ -10,7 +10,8 @@
     "lint": "eslint --quiet .",
     "lite-server": "lite-server",
     "heroku-prebuild": "npm install --dev",
-    "build": "webpack --mode production",
+    "build": "webpack --mode production --config ./webpack.config.js",
+    "postinstall": "webpack -p --config ./webpack.config.js --progress",
     "heroku-postbuild": "echo Skip build on Heroku"
   },
   "repository": {
