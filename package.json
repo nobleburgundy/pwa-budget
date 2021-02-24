@@ -6,10 +6,11 @@
   "scripts": {
     "test": "npm run lint",
     "watch": "nodemon server.js",
-    "start": "npm run build && node server.js",
+    "start": "node server.js",
     "lint": "eslint --quiet .",
     "lite-server": "lite-server",
-    "build": "webpack --mode production --config ./webpack.config.js"
+    "build": "webpack --mode production --config ./webpack.config.js",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
