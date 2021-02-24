@@ -47,7 +47,7 @@ Contributions are welcome. If you are interested in contributing to this project
 
 ## Tests
 
-No tests available at this time
+`npm run test` - currently only running ESLint.
 
 ## Questions? 
 
