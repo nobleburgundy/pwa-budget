@@ -12,7 +12,8 @@
     "server": "nodemon server.js",
     "lint": "eslint --quiet .",
     "lite-server": "lite-server",
-    "build": "npm run webpack",
+    "heroku-prebuild": "npm install --dev",
+    "build": "webpack --mode production",
     "webpack": "webpack"
   },
   "repository": {
