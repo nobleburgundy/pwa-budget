@@ -6,7 +6,7 @@ const config = {
     index: "./public/index.js",
   },
   output: {
-    path: __dirname + "/public/dist",
+    path: path.resolve(__dirname + "/public/dist"),
     filename: "[name].bundle.js",
   },
   mode: "production",
@@ -25,15 +25,15 @@ const config = {
       theme_color: "#ffffff",
       background_color: "#ffffff",
       start_url: "/",
-      publicPath: "/",
+      publicPath: "/dist",
       display: "standalone",
       icons: [
         {
           src: path.resolve(__dirname, "public/icons/icon-512x512.png"),
           // the plugin will generate an image for each size
           // included in the size array
-          size: [72, 96, 128, 152, 192, 384, 512],
-          destination: path.join("assets", "icons"),
+          size: [72, 96, 128, 144, 152, 192, 384, 512],
+          destination: path.join("icons"),
         },
       ],
     }),

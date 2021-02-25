@@ -9,18 +9,11 @@
     "start": "node server.js",
     "lint": "eslint --quiet .",
     "lite-server": "lite-server",
-    "build": "webpack --mode production --config ./webpack.config.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/coding-boot-camp/unit18hw.git"
+    "build": "webpack --config ./webpack.config.js"
   },
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/coding-boot-camp/unit18hw/issues"
-  },
-  "homepage": "https://github.com/coding-boot-camp/unit18hw#readme",
+  "license": "MIT",
+  "homepage": "https://jcg-pwa-budget.herokuapps.com",
   "dependencies": {
     "compression": "^1.7.4",
     "express": "^4.17.1",
