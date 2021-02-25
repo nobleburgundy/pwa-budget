@@ -1,3 +1,5 @@
+import { checkForIndexedDb, useIndexedDb } from "./js/indexedDB";
+
 let transactions = [];
 let myChart;
 
@@ -111,6 +113,7 @@ function sendTransaction(isAdding) {
   populateChart();
   populateTable();
   populateTotal();
+  console.log("test");
 
   // also send to server
   fetch("/api/transaction", {
@@ -122,6 +125,7 @@ function sendTransaction(isAdding) {
     },
   })
     .then((response) => {
+      console.log("res", response);
       return response.json();
     })
     .then((data) => {
@@ -135,13 +139,16 @@ function sendTransaction(isAdding) {
     })
     .catch((err) => {
       // fetch failed, so save in indexed db
-      saveRecord(transaction);
+      // saveRecord(transaction);
+      useIndexedDb("budget", "transactions", "post", transaction);
 
       // clear form
       nameEl.value = "";
       amountEl.value = "";
     });
 }
+
+// function getAllRecords() {}
 
 function saveRecord(transaction) {
   // good reference for offline indexDB example...
@@ -150,11 +157,6 @@ function saveRecord(transaction) {
   // name: nameEl.value,
   // value: amountEl.value,
   // date: new Date().toISOString(),
-  const transactionObj = {
-    name: transaction.name,
-    value: transaction.value,
-    date: transaction.date,
-  };
   const INDEX_DB_NAME = "transactionList";
   const request = window.indexedDB.open(INDEX_DB_NAME, 1);
 

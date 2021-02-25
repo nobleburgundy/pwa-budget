@@ -10,6 +10,7 @@ const config = {
     filename: "[name].bundle.js",
   },
   mode: "production",
+  watch: true,
   plugins: [
     new WebpackPwaManifest({
       // the name of the generated manifest file
