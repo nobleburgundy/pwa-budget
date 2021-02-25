@@ -4,14 +4,15 @@ const FILES_TO_CACHE = [
   "/index.js",
   "/styles.css",
   "/dist/index.bundle.js",
-  "/dist/manifest.json",
-  "/dist/assets/icons/icon_72x72.png",
-  "/dist/assets/icons/icon_96x96.png",
-  "/dist/assets/icons/icon_128x128.png",
-  "/dist/assets/icons/icon_152x152.png",
-  "/dist/assets/icons/icon_192x192.png",
-  "/dist/assets/icons/icon_384x384.png",
-  "/dist/assets/icons/icon_512x512.png",
+  // "/dist/manifest.json",
+  "/dist/icons/icon_72x72.png",
+  "/dist/icons/icon_96x96.png",
+  "/dist/icons/icon_128x128.png",
+  "/dist/icons/icon_144x144.png",
+  "/dist/icons/icon_152x152.png",
+  "/dist/icons/icon_192x192.png",
+  "/dist/icons/icon_384x384.png",
+  "/dist/icons/icon_512x512.png",
 ];
 
 const CACHE_NAME = "static-cache-v2";
