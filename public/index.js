@@ -8,47 +8,38 @@ fetch("/api/transaction")
     return response.json();
   })
   .then((data) => {
-    // save db data on global variable
-    console.log("fetch data", data);
-    // update the indexedDb to match
-    if (checkForIndexedDb) {
-      const indexRecords = useIndexedDb("pendingTransactions", "transactions", "get").then((indexData) => {
-        console.log("indexData", indexData);
-        if (indexData.length > 0) {
-          console.log("Records in index not in data");
-          indexData.forEach((transaction) => {
-            // add to mongo and delete from index
-            // also send to server
-            fetch("/api/transaction/bulk", {
-              method: "POST",
-              body: JSON.stringify(transaction),
-              headers: {
-                Accept: "application/json, text/plain, */*",
-                "Content-Type": "application/json",
-              },
-            })
-              .then((response) => {
-                return response.json();
-              })
-              .then((data) => {
-                clearOfflineTransactions();
-                console.log("bulk insert data = ", data);
-                if (data.errors) {
-                  console.log(data.errors);
-                }
-              });
+    // online - check for offline transactions
+    useIndexedDb("pendingTransactions", "transactions", "get").then((indexData) => {
+      if (indexData.length > 0) {
+        // data entered offline - add to 'data' and database
+        // add to mongo and delete from index
+        fetch("/api/transaction/bulk", {
+          method: "POST",
+          body: JSON.stringify(indexData),
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((offlineData) => {
+            // successfully added to DB, so delete from IndexedDB
+            clearOfflineTransactions();
+            if (offlineData.errors) {
+              console.log(offlineData.errors);
+            }
           });
-          // there's records in index that's not in data
-          // transactions = data.concat(indexRecords);
-        }
-      });
+      }
+    });
 
-      transactions = data;
+    // save db data on global variable
+    transactions = data;
 
-      populateTotal();
-      populateTable();
-      populateChart();
-    }
+    populateTotal();
+    populateTable();
+    populateChart();
   })
   .catch((err) => {
     console.log("Fetch failed");
@@ -184,39 +175,6 @@ function sendTransaction(isAdding) {
       nameEl.value = "";
       amountEl.value = "";
     });
-}
-
-function saveRecord(transaction) {
-  // good reference for offline indexDB example...
-  // https://umn.bootcampcontent.com/University-of-Minnesota-Boot-Camp/uofm-stp-fsf-pt-09-2020-u-c/blob/master/01-Class-Content/19-PWA/01-Activities/23-Stu-Mini-Project/Unsolved/client/assets/js/favorites.js
-  // create IndexDB schema
-  // name: nameEl.value,
-  // value: amountEl.value,
-  // date: new Date().toISOString(),
-  const INDEX_DB_NAME = "transactionList";
-  const request = window.indexedDB.open(INDEX_DB_NAME, 1);
-
-  request.onupgradeneeded = (event) => {
-    const db = event.target.result;
-
-    const transactionStore = db.createObjectStore(INDEX_DB_NAME, {
-      keyPath: "name",
-    });
-    transactionStore.createIndex("name", "name");
-    transactionStore.createIndex("value", "value");
-    transactionStore.createIndex("date", "date");
-  };
-
-  // save data
-  request.onsuccess = (event) => {
-    console.log(transaction);
-    const db = request.result;
-    const transactionWrapper = db.transaction(["transactionList"], "readwrite");
-    const transactionStore = transactionWrapper.objectStore("transactionList");
-
-    console.log("Adding transaction", transaction);
-    transactionStore.add(transaction);
-  };
 }
 
 document.querySelector("#add-btn").onclick = function () {

@@ -58,7 +58,3 @@ export function clearOfflineTransactions() {
   console.log("clearOfflineTransactions");
   useIndexedDb("pendingTransactions", "transactions", "clear");
 }
-
-export function getAllOfflineTransactions() {
-  useIndexedDb("pendingTransactions", "transactions", "get");
-}

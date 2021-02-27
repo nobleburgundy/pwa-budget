@@ -31,6 +31,7 @@ self.addEventListener("install", (evt) => {
   self.skipWaiting();
 });
 
+// activate
 self.addEventListener("activate", (evt) => {
   evt.waitUntil(
     caches.keys().then((keyList) => {
@@ -49,23 +50,20 @@ self.addEventListener("activate", (evt) => {
   self.clients.claim();
 });
 
-// fetch2
+// fetch
 self.addEventListener("fetch", (event) => {
-  if (event.request.url.includes("/api/")) {
-    console.log("api request service worker call");
+  if (event.request.url.includes("/api/transaction")) {
     event.respondWith(
       caches.open(DATA_CACHE_NAME).then((cache) => {
         return fetch(event.request)
           .then((response) => {
             if (response.status === 200) {
-              console.log("sw fetch res", response);
               cache.put(event.request, response.clone());
             }
 
             return response;
           })
           .catch((err) => {
-            console.log("sw error fetc");
             return cache.match(event.request);
           });
       })
