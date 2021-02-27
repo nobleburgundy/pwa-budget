@@ -1,4 +1,4 @@
-import { checkForIndexedDb, useIndexedDb } from "./js/indexedDB";
+import { checkForIndexedDb, useIndexedDb, addToOfflineTransactions, clearOfflineTransactions } from "./js/indexedDB";
 
 let transactions = [];
 let myChart;
@@ -9,11 +9,49 @@ fetch("/api/transaction")
   })
   .then((data) => {
     // save db data on global variable
-    transactions = data;
+    console.log("fetch data", data);
+    // update the indexedDb to match
+    if (checkForIndexedDb) {
+      const indexRecords = useIndexedDb("pendingTransactions", "transactions", "get").then((indexData) => {
+        console.log("indexData", indexData);
+        if (indexData.length > 0) {
+          console.log("Records in index not in data");
+          indexData.forEach((transaction) => {
+            // add to mongo and delete from index
+            // also send to server
+            fetch("/api/transaction/bulk", {
+              method: "POST",
+              body: JSON.stringify(transaction),
+              headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+              },
+            })
+              .then((response) => {
+                return response.json();
+              })
+              .then((data) => {
+                clearOfflineTransactions();
+                console.log("bulk insert data = ", data);
+                if (data.errors) {
+                  console.log(data.errors);
+                }
+              });
+          });
+          // there's records in index that's not in data
+          // transactions = data.concat(indexRecords);
+        }
+      });
 
-    populateTotal();
-    populateTable();
-    populateChart();
+      transactions = data;
+
+      populateTotal();
+      populateTable();
+      populateChart();
+    }
+  })
+  .catch((err) => {
+    console.log("Fetch failed");
   });
 
 function populateTotal() {
@@ -113,7 +151,6 @@ function sendTransaction(isAdding) {
   populateChart();
   populateTable();
   populateTotal();
-  console.log("test");
 
   // also send to server
   fetch("/api/transaction", {
@@ -125,10 +162,10 @@ function sendTransaction(isAdding) {
     },
   })
     .then((response) => {
-      console.log("res", response);
       return response.json();
     })
     .then((data) => {
+      console.log("data", data);
       if (data.errors) {
         errorEl.textContent = "Missing Information";
       } else {
@@ -140,15 +177,14 @@ function sendTransaction(isAdding) {
     .catch((err) => {
       // fetch failed, so save in indexed db
       // saveRecord(transaction);
-      useIndexedDb("budget", "transactions", "post", transaction);
+      console.log("network error, sending to indexDB", transaction);
+      addToOfflineTransactions(transaction);
 
       // clear form
       nameEl.value = "";
       amountEl.value = "";
     });
 }
-
-// function getAllRecords() {}
 
 function saveRecord(transaction) {
   // good reference for offline indexDB example...
